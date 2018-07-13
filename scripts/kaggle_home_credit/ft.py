@@ -290,8 +290,9 @@ feature_matrix, feature_names = ft.dfs(entityset=es, target_entity='app',
                                        agg_primitives = agg_primitives,
                                        trans_primitives = trans_primitives,
                                        seed_features = seed_features,
-                                       n_jobs = -1, verbose = 1, features_only = False,
-                                       max_depth = 2, chunk_size = 100)
+                                       where_primitives = where_primitives,
+                                       n_jobs = 1, verbose = 1, features_only = False,
+                                       max_depth = 2, chunk_size = 1000)
 
 
 
