@@ -1,7 +1,9 @@
 #!/bin/bash
 #SBATCH -n 1
+#SBATCH -p gpu
+#SBATCH --gres=gpu:1
 #SBATCH --mem=64gb
-#SBATCH --time=60000
+#SBATCH --time=6000
 #SBATCH --mail-user=wjk68@case.edu
 #SBATCH --mail-type=ALL
 #SBATCH --job-name='Random Search'

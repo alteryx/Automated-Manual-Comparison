@@ -9,7 +9,7 @@ import random
 
 N_FOLDS = 5
 MAX_EVALS = 1000
-OUT_FILE = '../progress/random_search_final_manual_features.csv'
+OUT_FILE = '../progress/random_search_domain_manual_features.csv'
 
 def objective(hyperparameters, iteration):
     """Objective function for random search. Returns
@@ -21,6 +21,8 @@ def objective(hyperparameters, iteration):
 
     if 'silent' in hyperparameters.keys():
         del hyperparameters['silent']
+
+    hyperparameters['n_jobs'] = -1
 
      # Perform n_folds cross validation with early stopping
     cv_results = lgb.cv(hyperparameters, train_set, num_boost_round = 10000, nfold = N_FOLDS,
@@ -39,7 +41,7 @@ def objective(hyperparameters, iteration):
     return [score, hyperparameters, iteration]
 
 
-def random_search(param_grid, max_evals = MAX_EVALS, start = 0):
+def random_search(param_grid, max_evals = MAX_EVALS):
     """Random search for hyperparameter tuning"""
 
     # Dataframe for results
@@ -47,13 +49,14 @@ def random_search(param_grid, max_evals = MAX_EVALS, start = 0):
                                   index = list(range(MAX_EVALS)))
 
 
-    for i in range(start, MAX_EVALS):
+    for i in range(MAX_EVALS):
 
         # Choose random hyperparameters
         random_params = {k: random.sample(v, 1)[0] for k, v in param_grid.items()}
 
         # Set correct subsample
-        random_params['subsample'] = 1.0 if random_params['boosting_type'] == 'goss' else random_params['subsample']
+        random_params['subsample'] = 1.0 if random_params['boosting_type'] == 'goss' /
+                                         else random_params['subsample']
 
         # Evaluate randomly selected hyperparameters
         eval_results = objective(random_params, i)
@@ -78,9 +81,13 @@ if __name__ == "__main__":
 
     # Read in the data and extract labels/features
     print('Reading in data')
-    features = pd.read_csv('../input/final_manual_features.csv')
+    features = pd.read_csv('../input/features_manual_domain.csv')
     train = features[features['TARGET'].notnull()].copy()
+    import gc
+    gc.enable()
     del features
+    gc.collect()
+
     train_labels = np.array(train['TARGET'].astype(np.int32)).reshape((-1, ))
     train = train.drop(columns = ['TARGET', 'SK_ID_CURR'])
 
@@ -108,13 +115,10 @@ if __name__ == "__main__":
     writer.writerow(headers)
     of_connection.close()
 
-    start = 0
-
-    print('Starting Random Search for {} iterations from {}.'.format(MAX_EVALS,
-                                     start))
+    print('Starting Random Search for {} iterations.'.format(MAX_EVALS))
 
     # Random search
-    results = random_search(param_grid, MAX_EVALS, start)
+    results = random_search(param_grid, MAX_EVALS)
 
     print('Saving results')
-    results.to_csv('../progress/random_results_final_manual_features.csv', index = False)
+    results.to_csv('../progress/random_search_domain_manual_features_finished.csv', index = False)
