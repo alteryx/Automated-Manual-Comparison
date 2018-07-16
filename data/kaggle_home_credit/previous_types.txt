@@ -1,0 +1,1 @@
+{'NFLAG_LAST_APPL_IN_DAY': <class 'featuretools.variable_types.variable.Boolean'>, 'NFLAG_INSURED_ON_APPROVAL': <class 'featuretools.variable_types.variable.Boolean'>}
