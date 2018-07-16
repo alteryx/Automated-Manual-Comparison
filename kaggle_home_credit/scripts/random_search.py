@@ -10,7 +10,7 @@ import csv
 import random
 
 N_FOLDS = 5
-MAX_EVALS = 1000
+MAX_EVALS = 100
 
 def objective(hyperparameters, iteration):
     """Objective function for random search. Returns
@@ -25,7 +25,7 @@ def objective(hyperparameters, iteration):
     cv_results = lgb.cv(hyperparameters, train_set, num_boost_round = 10000,
                          nfold = N_FOLDS,
                         early_stopping_rounds = 100, metrics = 'auc')
-	
+
     time = timer() - start
     # Best score is last in cv results
     score = cv_results['auc-mean'][-1]
@@ -77,11 +77,11 @@ def random_search(param_grid, out_file, max_evals = MAX_EVALS):
 
 if __name__ == "__main__":
 
-    out_file = '../progress/random_search_domain_manual_features_fast.csv'
+    out_file = 'random_search_all_manual_features.csv'
 
     # Read in the data and extract labels/features
     print('Reading in data')
-    features = pd.read_csv('../input/features_manual_domain.csv')
+    features = pd.read_csv('../input/final_manual_features.csv')
     train = features[features['TARGET'].notnull()].copy()
     del features
     train_labels = np.array(train['TARGET'].astype(np.int32)).reshape((-1, ))
@@ -117,4 +117,4 @@ if __name__ == "__main__":
     results = random_search(param_grid, out_file, MAX_EVALS)
 
     print('Saving results')
-    results.to_csv('../progress/random_search_domain_manual_features_finished_fast.csv', index = False)
+    results.to_csv('random_search_all_manual_features_finished.csv', index = False)

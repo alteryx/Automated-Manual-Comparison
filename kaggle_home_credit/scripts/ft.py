@@ -9,19 +9,19 @@ import featuretools as ft
 import featuretools.variable_types as vtypes
 
 
-featurenames = ft.load_features('../../data/kaggle_home_credit/features.txt')
+featurenames = ft.load_features('../input/features.txt')
 print('Number of features: {}'.format(len(featurenames)))
 
 print('Reading in data')
 # Read in the datasets and replace the anomalous values
-app_train = pd.read_csv('../../data/kaggle_home_credit/application_train.csv').replace({365243: np.nan})
-app_test = pd.read_csv('../../data/kaggle_home_credit/application_test.csv').replace({365243: np.nan})
-bureau = pd.read_csv('../../data/kaggle_home_credit/bureau.csv').replace({365243: np.nan})
-bureau_balance = pd.read_csv('../../data/kaggle_home_credit/bureau_balance.csv').replace({365243: np.nan})
-cash = pd.read_csv('../../data/kaggle_home_credit/POS_CASH_balance.csv').replace({365243: np.nan})
-credit = pd.read_csv('../../data/kaggle_home_credit/credit_card_balance.csv').replace({365243: np.nan})
-previous = pd.read_csv('../../data/kaggle_home_credit/previous_application.csv').replace({365243: np.nan})
-installments = pd.read_csv('../../data/kaggle_home_credit/installments_payments.csv').replace({365243: np.nan})
+app_train = pd.read_csv('../input/application_train.csv').replace({365243: np.nan})
+app_test = pd.read_csv('../input/application_test.csv').replace({365243: np.nan})
+bureau = pd.read_csv('../input/bureau.csv').replace({365243: np.nan})
+bureau_balance = pd.read_csv('../input/bureau_balance.csv').replace({365243: np.nan})
+cash = pd.read_csv('../input/POS_CASH_balance.csv').replace({365243: np.nan})
+credit = pd.read_csv('../input/credit_card_balance.csv').replace({365243: np.nan})
+previous = pd.read_csv('../input/previous_application.csv').replace({365243: np.nan})
+installments = pd.read_csv('../input/installments_payments.csv').replace({365243: np.nan})
 
 
 app_test['TARGET'] = np.nan
@@ -52,7 +52,7 @@ app_types['REGION_RATING_CLIENT'] = vtypes.Ordinal
 app_types['REGION_RATING_CLIENT_W_CITY'] = vtypes.Ordinal
 app_types['HOUR_APPR_PROCESS_START'] = vtypes.Ordinal
 
-with open('../../data/kaggle_home_credit/app_types.txt', 'w') as f:
+with open('../input/app_types.txt', 'w') as f:
     f.write(str(app_types))
 
 previous_types = {}
@@ -62,7 +62,7 @@ for col in previous:
     if (previous[col].nunique() == 2) and (previous[col].dtype == float):
         previous_types[col] = vtypes.Boolean
 
-with open('../../data/kaggle_home_credit/previous_types.txt', 'w') as f:
+with open('../input/previous_types.txt', 'w') as f:
     f.write(str(previous_types))
 
 # Drop the ids
@@ -197,7 +197,7 @@ where_primitives = ['percent_true', 'mean', 'sum']
 #                        n_jobs = -1, verbose = 1, features_only = True,
 #                        max_depth = 2)
 
-# ft.save_features(feature_names, '../../data/kaggle_home_credit/features.txt')
+# ft.save_features(feature_names, '../input/features.txt')
 
 import sys
 print('Total size of entityset: {:.5f} gb.'.format(sys.getsizeof(es) / 1e9))
@@ -217,4 +217,4 @@ feature_matrix, feature_names = ft.calculate_feature_matrix(featurenames,
 
 
 feature_matrix.reset_index(inplace = True)
-feature_matrix.to_csv('../../data/kaggle_home_credit/feature_matrix.csv', index = False)
+feature_matrix.to_csv('../input/feature_matrix.csv', index = False)
