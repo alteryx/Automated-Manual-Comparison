@@ -80,7 +80,7 @@ def create_partition(user_list, partition = None):
             'previous': previous_subset, 'installments': installments_subset,
             'cash': cash_subset, 'credit': credit_subset}
 
-n = 100
+n = 20
 
 # Break into n chunks
 size = app.shape[0] // n
@@ -273,7 +273,7 @@ for ids in id_list:
 
 X = delayed(pd.concat)(fms, axis = 0)
 
-with ProgressBar(), Profiler() as prof, ResourceProfiler(dt=0.25) as rprof, CacheProfiler() as cprof:
+with ProgressBar():
     feature_matrix = X.compute()
 
 end = timer()
