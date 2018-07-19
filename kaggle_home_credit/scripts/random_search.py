@@ -42,7 +42,7 @@ def random_search(param_grid, out_file, max_evals = MAX_EVALS):
     """Random search for hyperparameter tuning"""
 
     # Dataframe for results
-    results = pd.DataFrame(columns = ['score', 'params', 'iteration', 'time'],
+    results = pd.DataFrame(columns = ['score', 'std', 'params', 'iteration', 'time'],
                                   index = list(range(MAX_EVALS)))
 
 
@@ -81,8 +81,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description = "Input Features and Output File")
     
-    parser.add_argument('in_file', action="store", dest = "in_file", required = True)
-    parser.add_argument('out_file', action = "store", dest = "out_file", required = True)
+    parser.add_argument(action="store", dest = "in_file")
+    parser.add_argument(action = "store", dest = "out_file")
     
     args = parser.parse_args()
     
