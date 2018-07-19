@@ -4,3 +4,4 @@
 *.pkl
 *.lock
 *.dirlock
+*.pyc
