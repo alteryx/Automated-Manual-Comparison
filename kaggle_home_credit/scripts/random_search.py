@@ -29,19 +29,20 @@ def objective(hyperparameters, iteration):
     time = timer() - start
     # Best score is last in cv results
     score = cv_results['auc-mean'][-1]
+    std = cv_results['auc-stdv'][-1]
 
     # Number of estimators os length of results
     estimators = len(cv_results['auc-mean'])
     hyperparameters['n_estimators'] = estimators
 
-    return [score, hyperparameters, iteration, time]
+    return [score, std, hyperparameters, iteration, time]
 
 
 def random_search(param_grid, out_file, max_evals = MAX_EVALS):
     """Random search for hyperparameter tuning"""
 
     # Dataframe for results
-    results = pd.DataFrame(columns = ['score', 'params', 'iteration', 'time'],
+    results = pd.DataFrame(columns = ['score', 'std', 'params', 'iteration', 'time'],
                                   index = list(range(MAX_EVALS)))
 
 
@@ -74,14 +75,23 @@ def random_search(param_grid, out_file, max_evals = MAX_EVALS):
 
     return results
 
+import argparse
 
 if __name__ == "__main__":
 
-    out_file = 'random_search_all_manual_features.csv'
+    parser = argparse.ArgumentParser(description = "Input Features and Output File")
+    
+    parser.add_argument(action="store", dest = "in_file")
+    parser.add_argument(action = "store", dest = "out_file")
+    
+    args = parser.parse_args()
+    
+    in_file = '../input/%s.csv' % args.in_file
+    out_file = '../results/%s.csv' % args.out_file
 
     # Read in the data and extract labels/features
     print('Reading in data')
-    features = pd.read_csv('../input/final_manual_features.csv')
+    features = pd.read_csv(in_file)
     train = features[features['TARGET'].notnull()].copy()
     del features
     train_labels = np.array(train['TARGET'].astype(np.int32)).reshape((-1, ))
@@ -105,7 +115,7 @@ if __name__ == "__main__":
     train_set = lgb.Dataset(train, train_labels)
 
     # Create a new file and write the column names
-    headers = ["score", "hyperparameters", "iteration", "time"]
+    headers = ["score", "std", "hyperparameters", "iteration", "time"]
     of_connection = open(out_file, 'w')
     writer = csv.writer(of_connection)
     writer.writerow(headers)
@@ -117,4 +127,4 @@ if __name__ == "__main__":
     results = random_search(param_grid, out_file, MAX_EVALS)
 
     print('Saving results')
-    results.to_csv('random_search_all_manual_features_finished.csv', index = False)
+    results.to_csv('../results/%s_finished.csv' % out_file, index = False)
