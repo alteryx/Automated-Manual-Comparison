@@ -11,18 +11,12 @@ import seaborn as sns
 
 RSEED = 50
 
-def format_data(features, free_memory = False):
+def format_data(features):
     """Format a set of training and testing features joined together
        into separate sets for machine learning"""
     
     train = features[features['TARGET'].notnull()].copy()
     test = features[features['TARGET'].isnull()].copy()
-    
-    if free_memory:
-        import gc
-        gc.enable()
-        del features
-        gc.collect()
     
     train_labels = np.array(train['TARGET'].astype(np.int32)).reshape((-1, ))
     test_ids = list(test['SK_ID_CURR'])
@@ -35,7 +29,7 @@ def format_data(features, free_memory = False):
     return train, train_labels, test, test_ids, feature_names
 
 
-def cross_validate_and_submit(features, best_hyp, free_memory = False):
+def cross_validate_and_submit(features, best_hyp):
     """Function for assessing cross validation, calculating feature importances,
     and making a submission dataframe.
     
@@ -50,7 +44,7 @@ def cross_validate_and_submit(features, best_hyp, free_memory = False):
         submission (dataframe): dataframe that can be submitted to the competition.
     
     """
-    train, train_labels, test, test_ids, feature_names = format_data(features, free_memory)
+    train, train_labels, test, test_ids, feature_names = format_data(features)
     
     train_set = lgb.Dataset(train, label = train_labels)
     
