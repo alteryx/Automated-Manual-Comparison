@@ -30,6 +30,7 @@ app_test['TARGET'] = np.nan
 # Join together training and testing
 app = app_train.append(app_test, ignore_index = True, sort = True)
 
+
 # All ids should be integers
 for index in ['SK_ID_CURR', 'SK_ID_PREV', 'SK_ID_BUREAU']:
     for dataset in [app, bureau, bureau_balance, cash, credit, previous, installments]:
@@ -40,6 +41,7 @@ for index in ['SK_ID_CURR', 'SK_ID_PREV', 'SK_ID_BUREAU']:
 # Need `SK_ID_CURR` in every dataset
 bureau_balance = bureau_balance.merge(bureau[['SK_ID_CURR', 'SK_ID_BUREAU']],
                                       on = 'SK_ID_BUREAU', how = 'left')
+
 
 
 # Set the index for locating
