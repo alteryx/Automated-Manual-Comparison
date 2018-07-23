@@ -3,6 +3,11 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import Imputer
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import make_scorer
+
 def plot_feature_importances(df, n = 15, threshold = None):
     """Plots n most important features. Also plots the cumulative importance if
     threshold is specified and prints the number of features needed to reach threshold cumulative importance.
@@ -71,12 +76,12 @@ def feature_selection(feature_matrix, missing_threshold=90, correlation_threshol
     """Feature selection for a dataframe."""
     
     feature_matrix = pd.get_dummies(feature_matrix)
-    n_features_start = feature_matrix.shape[1] - 2
+    n_features_start = feature_matrix.shape[1]
     print('Original shape: ', feature_matrix.shape)
 
     _, idx = np.unique(feature_matrix, axis = 1, return_index = True)
     feature_matrix = feature_matrix.iloc[:, idx]
-    n_non_unique_columns = n_features_start - feature_matrix.shape[1] - 2
+    n_non_unique_columns = n_features_start - len(idx)
     print('{}  non-unique valued columns.'.format(n_non_unique_columns))
 
     # Find missing and percentage
@@ -121,5 +126,48 @@ def feature_selection(feature_matrix, missing_threshold=90, correlation_threshol
     total_removed = n_non_unique_columns + n_missing_cols + n_zero_variance_cols + n_collinear
     
     print('Total columns removed: ', total_removed)
-    print('Shape after feature selection: {}', feature_matrix.shape)
+    print('Shape after feature selection: {}.'.format(feature_matrix.shape))
     return feature_matrix
+
+def mape(y_true, pred):
+    mape = 100 * np.mean(abs(y_true - pred) / y_true)
+    
+    return mape
+
+def evaluate(train, train_labels, test, test_labels):
+    """Evaluate a training dataset with a standard sklearn model"""
+    
+    # Use the same model for each training set for now
+    model = RandomForestRegressor(n_estimators = 100, 
+                                  random_state = 50, n_jobs = -1)
+    
+    train = train.replace({np.inf: np.nan})
+    test = test.replace({np.inf: np.nan})
+    
+    feature_names = list(train.columns)
+    
+    # Impute the missing values
+    imputer = Imputer(strategy = 'median', axis = 1)
+    train = imputer.fit_transform(train)
+    test = imputer.transform(test)
+    
+    # Metric     
+    mape_scorer = make_scorer(mape, greater_is_better = False)
+    
+    # Fit on the training data and make predictions
+    model.fit(train, train_labels)
+    preds = model.predict(test)
+    
+    cv_score = -1 * cross_val_score(model, train, train_labels, 
+                                    scoring = mape_scorer, cv = 5)
+    
+    # Calculate the performance
+    mape_score = mape(test_labels, preds)
+    print('The 5-fold cross validation MAPE score on the training data is: {:.2f} with std: {:.2f}'.format(
+                                                                                   cv_score.mean(), 
+                                                                                   cv_score.std()))
+    print('The MAPE score on the testing data is: {:.2f}.'.format(mape_score))
+    feature_importances = pd.DataFrame({'feature': feature_names, 
+                                        'importance': model.feature_importances_})
+    
+    return preds, feature_importances
