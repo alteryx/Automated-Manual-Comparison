@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import Imputer
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, RandomizedSearchCV
 from sklearn.metrics import make_scorer
 
 def plot_feature_importances(df, n = 15, threshold = None):
@@ -130,6 +130,7 @@ def feature_selection(feature_matrix, missing_threshold=90, correlation_threshol
     return feature_matrix
 
 def mape(y_true, pred):
+    """Metric for evaluating predictions"""
     mape = 100 * np.mean(abs(y_true - pred) / y_true)
     
     return mape
@@ -163,11 +164,47 @@ def evaluate(train, train_labels, test, test_labels):
     
     # Calculate the performance
     mape_score = mape(test_labels, preds)
-    print('The 5-fold cross validation MAPE score on the training data is: {:.2f} with std: {:.2f}'.format(
-                                                                                   cv_score.mean(), 
-                                                                                   cv_score.std()))
-    print('The MAPE score on the testing data is: {:.2f}.'.format(mape_score))
+    print('5-fold CV MAPE: {:.2f} with std: {:.2f}'.format(cv_score.mean(),cv_score.std()))
+    print('Test MAPE: {:.2f}.'.format(mape_score))
     feature_importances = pd.DataFrame({'feature': feature_names, 
                                         'importance': model.feature_importances_})
     
     return preds, feature_importances
+
+def random_search(train, train_labels):
+    """Random Search on a set of features using a random forest"""
+    
+    # Metric     
+    mape_scorer = make_scorer(mape, greater_is_better = False)
+    scorer = mape_scorer
+
+    param_grid = {
+        'n_estimators': [int(x) for x in np.linspace(50, 1000, num = 100)],
+        'max_depth': [None] + [int(x) for x in np.linspace(4, 20)],
+        'min_samples_leaf': [1, 2, 5, 10],
+        'max_features': ['auto', 'sqrt', 0.5, 'log2', None]
+    }
+    
+    # Impute the missing values
+    imputer = Imputer(strategy = 'median', axis = 1)
+    train = imputer.fit_transform(train.replace({np.inf:np.nan}))
+    
+    # Make a model 
+    reg = RandomForestRegressor(n_jobs = -1, random_state = 50)
+
+    # RandomizedSearchCV object
+    random = RandomizedSearchCV(reg, param_grid, n_iter = 100, scoring = scorer, 
+                                verbose = 1, n_jobs = -1, cv = 5, random_state = 50)
+
+    # Fit on the training data
+    random.fit(train, train_labels)
+    
+    best_score = -1 * random.best_score_
+    best_score_std = random.cv_results_['std_test_score'][np.argmax(random.cv_results_['mean_test_score'])]
+    best_model = random.best_estimator_
+    
+    print('Best 5-fold CV Score: {:.2f} with std: {:.2f}.'.format(best_score, best_score_std))
+    print('\nBest Hyperparameters:')
+    print(random.best_params_)
+    
+    return best_model
