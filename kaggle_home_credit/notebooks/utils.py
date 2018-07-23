@@ -9,6 +9,9 @@ import lightgbm as lgb
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Evaluating dictionary
+import ast
+
 RSEED = 50
 
 def format_data(features):
@@ -128,3 +131,96 @@ def plot_feature_importances(df, n = 15, threshold = None):
                                                                                   100 * threshold))
     
     return df
+
+
+def evaluate(fm, hyp_results):
+    """Evaluate a feature matrix using the hyperparameter tuning results.
+    
+    Parameters:
+        fm (dataframe): feature matrix with observations in the rows and features in the columns. This will
+                        be passed to `format_data` and hence must have a train set where the `TARGET` values are 
+                        not null and a test set where `TARGET` is null. Must also have the `SK_ID_CURR` column.
+        
+        hyp_results (dataframe): results from hyperparameter tuning. Must have column `score` (where higher is better)
+                                 and `params` holding the model hyperparameters
+                                 
+    Returns:
+        results (dataframe): the cross validation roc auc from the default hyperparameters and the 
+                             optimal hyperparameters
+        
+        feature_importances (dataframe): feature importances from the gradient boosting machine. Columns are 
+                                          `feature` and `importance`. This can be used in `plot_feature_importances`.
+                                          
+        submission (dataframe): Predictions which can be submitted to the Kaggle Home Credit competition. Save
+                                these as `submission.to_csv("filename.csv", index = False)` and upload
+       """
+    
+    print('Number of features: ', (fm.shape[1] - 2))
+    
+    # Format the feature matrix 
+    train, train_labels, test, test_ids, feature_names = format_data(fm)
+    
+    # Training set 
+    train_set = lgb.Dataset(train, label = train_labels)
+
+    # Dataframe to hold results
+    results = pd.DataFrame(columns = ['default_auc', 'default_auc_std', 
+                                      'opt_auc', 'opt_auc_std', 
+                                      'random_search_auc'], index = [0])
+
+    # Create a default model and find the hyperparameters
+    model = lgb.LGBMClassifier()
+    default_hyp = model.get_params()
+    
+    # Remove n_estimators because this is found through early stopping
+    del default_hyp['n_estimators'], default_hyp['silent']
+
+    # Cross validation with default hyperparameters
+    default_cv_results = lgb.cv(default_hyp, train_set, nfold = 5, num_boost_round = 10000, early_stopping_rounds = 100, 
+                                metrics = 'auc', seed = RSEED)
+    
+    default_auc = default_cv_results['auc-mean'][-1]
+    default_auc_std = default_cv_results['auc-stdv'][-1]
+    
+    # Locate the optimal hyperparameters
+    hyp_results = hyp_results.sort_values('score', ascending = False).reset_index(drop = True)
+    best_hyp = ast.literal_eval(hyp_results.loc[0, 'params'])
+    best_random_score = hyp_results.loc[0, 'score']
+
+    del best_hyp['n_estimators']
+
+    # Cross validation with best hyperparameter values
+    opt_cv_results = lgb.cv(best_hyp, train_set, nfold = 5, num_boost_round = 10000, early_stopping_rounds = 100, 
+                            metrics = 'auc', seed = RSEED)
+
+    opt_auc = opt_cv_results['auc-mean'][-1]
+    opt_auc_std = opt_cv_results['auc-stdv'][-1]
+    
+    # Insert results into dataframe
+    results.loc[0, 'default_auc'] = default_auc
+    results.loc[0, 'default_auc_std'] = default_auc_std
+    results.loc[0, 'random_search_auc'] = best_random_score
+    results.loc[0, 'opt_auc'] = opt_auc
+    results.loc[0, 'opt_auc_std'] = opt_auc_std
+    
+    # Extract the optimum number of estimators
+    opt_n_estimators = len(opt_cv_results['auc-mean'])
+    model = lgb.LGBMClassifier(n_estimators = opt_n_estimators, **best_hyp)
+    
+    # Fit on whole training set
+    model.fit(train, train_labels)
+
+    # Make predictions on testing data
+    preds = model.predict_proba(test)[:, 1]
+
+    # Make submission dataframe
+    submission = pd.DataFrame({'SK_ID_CURR': test_ids, 
+                               'TARGET': preds})
+
+    submission['SK_ID_CURR'] = submission['SK_ID_CURR'].astype(np.int32)
+    
+    # Make feature importances dataframe
+    feature_importances = pd.DataFrame({'feature': feature_names,
+                                        'importance': model.feature_importances_})
+
+    return results, feature_importances, submission
