@@ -1,3 +1,5 @@
+# Kaggle Home Credit Manual vs Featuretools Comparison
+
 The sequence of notebooks/scripts is as follows:
 
 1. Manual Feature Engineering.ipynb
