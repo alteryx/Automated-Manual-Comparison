@@ -3,16 +3,16 @@ import numpy as np
 
 import matplotlib.pyplot as plt
 
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import RandomForestRegressor, ExtraTreesRegressor, RandomForestClassifier
 from sklearn.preprocessing import Imputer
 from sklearn.model_selection import cross_val_score, RandomizedSearchCV
-from sklearn.metrics import make_scorer, median_absolute_error
+from sklearn.metrics import make_scorer, median_absolute_error, f1_score
 
 def evaluate(train, train_labels, test, test_labels):
     """Evaluate a training dataset with a standard sklearn model"""
     
     # Use the same model for each training set for now
-    model = RandomForestRegressor(n_estimators = 100, 
+    model = RandomForestClassifier(n_estimators = 100, 
                                   random_state = 50, n_jobs = -1)
     
     train = train.replace({np.inf: np.nan, -np.inf: np.nan})
@@ -25,8 +25,8 @@ def evaluate(train, train_labels, test, test_labels):
     train = imputer.fit_transform(train)
     test = imputer.transform(test)
     
-    cv_score = -1 * cross_val_score(model, train, train_labels, 
-                                    scoring = "neg_median_absolute_error", 
+    cv_score = 1 * cross_val_score(model, train, train_labels, 
+                                    scoring = "f1", 
                                     cv = 5)
     
     # Fit on the training data and make predictions
@@ -34,9 +34,9 @@ def evaluate(train, train_labels, test, test_labels):
     preds = model.predict(test)
     
     # Calculate the performance
-    mae_score = median_absolute_error(test_labels, preds)
+    f1 = f1_score(test_labels, preds)
     print('5-fold CV MAE: {:.2f} with std: {:.2f}'.format(cv_score.mean(),cv_score.std()))
-    print('Test MAE: {:.2f}.'.format(mae_score))
+    print('Test MAE: {:.2f}.'.format(f1))
     
     feature_importances = pd.DataFrame({'feature': feature_names, 
                                         'importance': model.feature_importances_})
