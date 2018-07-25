@@ -35,8 +35,8 @@ def evaluate(train, train_labels, test, test_labels):
     
     # Calculate the performance
     f1 = f1_score(test_labels, preds)
-    print('5-fold CV MAE: {:.2f} with std: {:.2f}'.format(cv_score.mean(),cv_score.std()))
-    print('Test MAE: {:.2f}.'.format(f1))
+    print('5-fold CV F1: {:.2f} with std: {:.2f}'.format(cv_score.mean(),cv_score.std()))
+    print('Test F1: {:.2f}.'.format(f1))
     
     feature_importances = pd.DataFrame({'feature': feature_names, 
                                         'importance': model.feature_importances_})
