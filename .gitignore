@@ -5,3 +5,4 @@
 *.lock
 *.dirlock
 *.pyc
+*.p
