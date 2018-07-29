@@ -8,7 +8,7 @@ from sklearn.preprocessing import Imputer
 from sklearn.model_selection import cross_val_score, RandomizedSearchCV
 from sklearn.metrics import make_scorer
 
-def plot_feature_importances(df, n = 15, threshold = None):
+def plot_feature_importances(df, n = 15, color = 'blue', threshold = None):
     """Plots n most important features. Also plots the cumulative importance if
     threshold is specified and prints the number of features needed to reach threshold cumulative importance.
     Intended for use with any tree-based feature importances. 
@@ -42,13 +42,14 @@ def plot_feature_importances(df, n = 15, threshold = None):
     plt.rcParams['font.size'] = 12
     
     # Bar plot of n most important features
-    df.loc[:n, :].plot.barh(y = 'importance_normalized', 
-                            x = 'feature', color = 'blue', 
+    df.loc[:(n - 1), :].plot.barh(y = 'importance_normalized', 
+                            x = 'feature', color = color, 
                             edgecolor = 'k', figsize = (12, 8),
                             legend = False)
-
-    plt.xlabel('Normalized Importance', size = 18); plt.ylabel(''); 
-    plt.title(f'Top {n} Most Important Features', size = 18)
+    plt.yticks(size = 14)
+    plt.xticks(size = 16)
+    plt.xlabel('Normalized Importance', size = 20); plt.ylabel(''); 
+    plt.title(f'Top {n} Most Important Features', size = 24)
     plt.gca().invert_yaxis()
     
     
