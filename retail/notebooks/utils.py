@@ -107,7 +107,7 @@ def plot_feature_importances(df, n = 15, threshold = None):
     
     return df
 
-def plot_feature_importances(df, n = 15, threshold = None):
+def plot_feature_importances(df, n = 15, color = 'blue', threshold = None):
     """Plots n most important features. Also plots the cumulative importance if
     threshold is specified and prints the number of features needed to reach threshold cumulative importance.
     Intended for use with any tree-based feature importances. 
@@ -142,7 +142,7 @@ def plot_feature_importances(df, n = 15, threshold = None):
     
     # Bar plot of n most important features
     df.loc[:n, :].plot.barh(y = 'importance_normalized', 
-                            x = 'feature', color = 'blue', 
+                            x = 'feature', color = color, 
                             edgecolor = 'k', figsize = (12, 8),
                             legend = False)
 
