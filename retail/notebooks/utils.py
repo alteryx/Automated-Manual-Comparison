@@ -178,11 +178,6 @@ def feature_selection(feature_matrix, missing_threshold=90, correlation_threshol
     n_features_start = feature_matrix.shape[1]
     print('Original shape: ', feature_matrix.shape)
 
-    _, idx = np.unique(feature_matrix, axis = 1, return_index = True)
-    feature_matrix = feature_matrix.iloc[:, idx]
-    n_non_unique_columns = n_features_start - len(idx)
-    print('{}  non-unique valued columns.'.format(n_non_unique_columns))
-
     # Find missing and percentage
     missing = pd.DataFrame(feature_matrix.isnull().sum())
     missing['percent'] = 100 * (missing[0] / feature_matrix.shape[0])
@@ -222,7 +217,7 @@ def feature_selection(feature_matrix, missing_threshold=90, correlation_threshol
     print('{} collinear columns removed with threshold: {}.'.format(n_collinear,
                                                                           correlation_threshold))
     
-    total_removed = n_non_unique_columns + n_missing_cols + n_zero_variance_cols + n_collinear
+    total_removed = n_missing_cols + n_zero_variance_cols + n_collinear
     
     print('Total columns removed: ', total_removed)
     print('Shape after feature selection: {}.'.format(feature_matrix.shape))
