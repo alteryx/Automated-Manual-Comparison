@@ -41,15 +41,16 @@ def plot_feature_importances(df, n = 15, color = 'blue', threshold = None):
     
     plt.rcParams['font.size'] = 12
     
+    plt.style.use('fivethirtyeight')
     # Bar plot of n most important features
     df.loc[:(n - 1), :].plot.barh(y = 'importance_normalized', 
                             x = 'feature', color = color, 
                             edgecolor = 'k', figsize = (12, 8),
-                            legend = False)
+                            legend = False, linewidth = 2)
     plt.yticks(size = 14)
     plt.xticks(size = 16)
     plt.xlabel('Normalized Importance', size = 20); plt.ylabel(''); 
-    plt.title(f'Top {n} Most Important Features', size = 24)
+    plt.title(f'{n} Most Important Features', size = 24)
     plt.gca().invert_yaxis()
     
     
