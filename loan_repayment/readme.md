@@ -1,16 +1,10 @@
-# Kaggle Home Credit Manual vs Featuretools Comparison
+# Loan Repayment Prediction
 
-The sequence of notebooks/scripts is as follows:
+Exploring automated feature engineering using Featuretools and manual feature engineering
+for the Home Credit Default Risk machine learning competition currently running on Kaggle.
+The data can be downloaded here.
 
-1. Manual Feature Engineering.ipynb
-2. Automated Feature Engineering.ipynb
-3. Semi-Automated Feature Engineering.ipynb
-4. Partioning Data.ipynb
-5. Featuretools Implementation with Dask.ipynb
-6. Sampling and Feature Selection.ipynb
-7. random_search.py
-8. Subsetting Data.ipynb
-9. Results.ipynb
+The notebooks are as follows:
 
-For the main overview of the project, only (1., 2., and 9.) are required.
-Additional helper functions can be found in utils.py
+
+
