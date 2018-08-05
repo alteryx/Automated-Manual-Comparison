@@ -27,4 +27,4 @@ the libraries listed in `requirements.txt` are installed. These projects require
 
 ### Contact
 
-Any questions can be directed to willkoehrsen@featurelabs.com
+Any questions can be directed to will.koehrsen@featurelabs.com
