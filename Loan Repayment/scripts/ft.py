@@ -122,6 +122,7 @@ print('EntitySet Complete')
 # Print out the EntitySet
 print(es)
 
+
 # Specify primitives
 agg_primitives =  ["sum", "max", "min", "mean", "count", "percent_true", "num_unique", "mode"]
 trans_primitives = ['percentile', 'and']
@@ -138,11 +139,9 @@ trans_primitives = ['percentile', 'and']
 # ft.save_features(feature_names, '../input/features.txt')
 
 import sys
-print('Total size of entityset: {:.5f} gb.'.format(sys.getsizeof(es) / 1e9))
-
-
 import psutil
 
+print('Total size of entityset: {:.5f} gb.'.format(sys.getsizeof(es) / 1e9))
 print('Total number of cpus detected: {}.'.format(psutil.cpu_count()))
 print('Total size of system memory: {:.5f} gb.'.format(psutil.virtual_memory().total / 1e9))
 
