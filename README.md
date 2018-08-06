@@ -11,6 +11,13 @@ specific to each dataset, which means the code will have to be _re-written for e
 
 Automated feature engineering with Featuretools allows one to create thousands of features
 automatically from a set of related tables using a framework that can be easily applied to any problem.
+
+<p align="center">
+  <img src="images/featuretools.png" width = "600" alt = "Featuretools"/>
+</p>
+
+# Highlights
+
 Featuretools offers us the following benefits:
 
 1. __Up to 10x reduction in development time__
@@ -70,7 +77,13 @@ and delivering better overall predictive models:
   <img src="retail_spending/images/results_comparison.png" width = "600"/>
 </p>
 
+## Feature Labs
 
+<p align="center">
+  <img src="images/FeatureLabs.png" width = "600" alt = "Feature Labs"/>
+</p>
+
+Featuretools was created by the developers at [Feature Labs](https://www.featurelabs.com/). If building impactful data science pipelines is important to you or your business, please [get in touch](https://www.featurelabs.com/contact.html).
 
 ### Contact
 
