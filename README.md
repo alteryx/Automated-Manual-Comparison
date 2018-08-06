@@ -79,8 +79,8 @@ and delivering better overall predictive models:
 
 ## Feature Labs
 
-<p align="center">
-  <img src="images/FeatureLabs.png" width = "600" alt = "Feature Labs"/>
+<p align="left">
+  <img src="images/FeatureLabs.png" width = "400" alt = "Feature Labs"/>
 </p>
 
 Featuretools was created by the developers at [Feature Labs](https://www.featurelabs.com/). If building impactful data science pipelines is important to you or your business, please [get in touch](https://www.featurelabs.com/contact.html).
