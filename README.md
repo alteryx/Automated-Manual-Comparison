@@ -50,9 +50,9 @@ as manual feature engineering:
 
 
 <p float="left">
-  <img src="loan_repayment/images/time_comparison.png" width="280" />
-  <img src="loan_repayment/images/features_comparison.png" width="280" /> 
-  <img src="loan_repayment/images/score_comparison.png" width="280" />
+  <img src="images/time_comparison.png" width="280" />
+  <img src="images/features_comparison.png" width="280" /> 
+  <img src="images/score_comparison.png" width="280" />
 </p>
 
 2. __Engine Life Prediction: Automatically Create Meaningful Features__
@@ -62,7 +62,7 @@ Featuretools creates meaningful features which can inform our thinking about rea
 as seen in the most important features:
 
 <p align="center">
-  <img src="engine_life/images/featuretools_mostimportant.png" width = "600"/>
+  <img src="images/featuretools_mostimportant.png" width = "600"/>
 </p>
 
 3. __Retail Spending Prediction: Ensure Models Use Valid Data__
@@ -74,7 +74,7 @@ of time filters _automatically_, allowing us to focus on other aspects of the ma
 and delivering better overall predictive models:
 
 <p align="center">
-  <img src="retail_spending/images/results_comparison.png" width = "600"/>
+  <img src="images/results_comparison.png" width = "600"/>
 </p>
 
 ## Feature Labs
