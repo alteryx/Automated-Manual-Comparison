@@ -1,9 +1,9 @@
+# Manual vs Automated Feature Engineering Comparison 
+
 <p float="left">
   <img src="images/ManualProcess.png" width="425" />
   <img src="images/AutomatedProcess.png" width="425" /> 
 </p>
-
-# Manual vs Automated Feature Engineering Comparison 
 
 The traditional process of manual feature engineering requires building one feature at a time by hand
 informed by domain knowledge. This is tedious, time-consuming, error prone, and perhaps most importantly,
@@ -12,7 +12,7 @@ specific to each dataset, which means the code will have to be _re-written for e
 Automated feature engineering with Featuretools allows one to create thousands of features
 automatically from a set of related tables using a framework that can be easily applied to any problem.
 
-<p align="center">
+<p align="left">
   <img src="images/featuretools.png" width = "600" alt = "Featuretools"/>
 </p>
 
