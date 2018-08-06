@@ -21,7 +21,9 @@ The notebooks are as follows:
 6. `Results.ipynb`
 
 `utils.py` contains a number of useful helper functions and `random_search.py` in the
-`scripts` directory was used for the random search implementation.
+`scripts` directory was used for the random search implementation. To generate the final feature matrix,
+use the `Featuretools on Dask` notebook or run the `ft.py` script. The script takes nearly 
+a full day to run, while depending on your system, the notebook can run in a few hours.
 
 ### Data
 
