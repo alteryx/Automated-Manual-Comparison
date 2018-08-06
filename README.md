@@ -1,29 +1,76 @@
-# Manual vs Automated Feature Engineering with Featuretools Comparison 
+<p float="left">
+  <img src="images/ManualProcess.png" width="425" />
+  <img src="images/AutomatedProcess.png" width="425" /> 
+</p>
 
-All notebooks and code for the article: "Why Automated Feature Engineering
+# Manual vs Automated Feature Engineering Comparison 
+
+The traditional process of manual feature engineering requires building one feature at a time by hand
+informed by domain knowledge. This is tedious, time-consuming, error prone, and perhaps most importantly,
+specific to each dataset, which means the code will have to be _re-written for each problem._ 
+
+Automated feature engineering with Featuretools allows one to create thousands of features
+automatically from a set of related tables using a framework that can be easily applied to any problem.
+Featuretools offers us the following benefits:
+
+1. __Up to 10x reduction in development time__
+2. __Better predictive performance__
+3. __Interpretable features with real-world significance__
+4. __Fits into existing machine learning pipelines__
+5. __Ensures data is valid in time-series problems__
+
+Automated feature engineering will change the way you do machine learning by allowing you to 
+develop better predictive models in a fraction of the time as the traditional approach.
+
+## Articles
+
+For the highlights of the project, check out "Why Automated Feature Engineering
 Will Change the Way You Do Machine Learning" on Towards Data Science (Link)
 
 An expanded version of the article, "The Benefits of Automated Feature Engineering
 for Predictive Modeling" is available on the Feature Labs Medium blog (Link)
 
-The three projects are:
+# Results
 
-1. Loan Repayment Prediction: Data is from the Home Credit Default Risk
-machine learning competition currently running on Kaggle. The objective is to 
-predict whether or not a client applying for a loan will be able to repay the loan.
+Each of the 3 projects in this repository demonstrates different benefits of using automated
+feature enginering. 
 
-2. Engine Life Prediction: Adapted from a machine learning competition where
-the objective is to determine how much longer an engine will run given operating
-measurements. Data is simulated engine measurements from NASA.
+1. __Loan Repayment Prediction: Build Better Models Faster__
 
-3. Retail Spending Prediction: A set of online customer transactions, this data
-initially did not come with a prediction problem. The task is framed as classifying
-whether or not a customer will spend more than $500 in the next month.
+Given a dataset of 58 millions rows spread across 7 tables and the task of predicting whether or not a client
+will default on a loan, Featuretools delivered a better predictive model in a fraction of the time
+as manual feature engineering:
 
-## Running the notebooks
 
-Make sure the appropriate data is in the `input` folder for each project and that 
-the libraries listed in `requirements.txt` are installed. These projects require Python 3.6+. 
+<p float="left">
+  <img src="loan_repayment/images/time_comparison.png" width="280" />
+  <img src="loan_repayment/images/features_comparison.png" width="280" /> 
+  <img src="loan_repayment/images/score_comparison.png" width="280" />
+</p>
+
+2. __Engine Life Prediction: Automatically Create Meaningful Features__
+
+In this problem of predicting how long an engine will run until it fails, we observe that 
+Featuretools creates meaningful features which can inform our thinking about real-world problems
+as seen in the most important features:
+
+<p align="center">
+  <img src="engine_life/images/featuretools_mostimportant.png" width = "600"/>
+</p>
+
+3. __Retail Spending Prediction: Ensure Models Use Valid Data__
+
+When we have time-series data, we traditionally have to be extremely careful about making
+sure our model only trains on valid data. Often, a model will work in development only to completely fail in deployment
+because the training data was not properly filtered based on the time. Featuretools can take care 
+of time filters _automatically_, allowing us to focus on other aspects of the machine learning pipeline
+and delivering better overall predictive models:
+
+<p align="center">
+  <img src="retail_spending/images/results_comparison.png" width = "600"/>
+</p>
+
+
 
 ### Contact
 
