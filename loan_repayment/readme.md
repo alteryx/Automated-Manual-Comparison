@@ -3,6 +3,14 @@
 A comparison of automated feature engineering using Featuretools and manual feature engineering
 for the Home Credit Default Risk machine learning competition currently [running on Kaggle](https://www.kaggle.com/c/home-credit-default-risk).
 
+<p float="left">
+  <img src="images/time_comparison.png" width="280" />
+  <img src="images/features_comparison.png" width="280" /> 
+  <img src="images/score_comparison.png" width="280" />
+</p>
+
+### Notebooks
+
 The notebooks are as follows:
 
 1. `Manual Loan Repayment.ipynb`
@@ -14,6 +22,8 @@ The notebooks are as follows:
 
 `utils.py` contains a number of useful helper functions and `random_search.py` in the 
 `scripts` directory was used for the random search implementation.
+
+### Data
 
 The data can be downloaded [here](https://www.kaggle.com/c/home-credit-default-risk/data).
 
