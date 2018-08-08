@@ -139,7 +139,7 @@ def plot_feature_importances(df, n = 15, color = 'blue', threshold = None):
     df['cumulative_importance'] = np.cumsum(df['importance_normalized'])
     
     plt.rcParams['font.size'] = 12
-    
+    plt.style.use('fivethirtyeight')
     # Bar plot of n most important features
     df.loc[:n, :].plot.barh(y = 'importance_normalized', 
                             x = 'feature', color = color, 
