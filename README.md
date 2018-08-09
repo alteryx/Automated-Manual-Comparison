@@ -34,9 +34,6 @@ develop better predictive models in a fraction of the time as the traditional ap
 For the highlights of the project, check out "Why Automated Feature Engineering
 Will Change the Way You Do Machine Learning" on Towards Data Science (Link)
 
-An expanded version of the article, "The Benefits of Automated Feature Engineering
-for Predictive Modeling" is available on the Feature Labs Medium blog (Link)
-
 # Results
 
 Each of the 3 projects in this repository demonstrates different benefits of using automated
@@ -46,7 +43,8 @@ feature enginering.
 
 Given a dataset of 58 millions rows spread across 7 tables and the task of predicting whether or not a client
 will default on a loan, Featuretools delivered a better predictive model in a fraction of the time
-as manual feature engineering:
+as manual feature engineering. The features built by Featuretools are also human-intrepretable 
+and can give us insight into the problem:
 
 
 <p float="left">
@@ -55,17 +53,7 @@ as manual feature engineering:
   <img src="images/score_comparison.png" width="280" />
 </p>
 
-2. __Engine Life Prediction: Automatically Create Meaningful Features__
-
-In this problem of predicting how long an engine will run until it fails, we observe that 
-Featuretools creates meaningful features which can inform our thinking about real-world problems
-as seen in the most important features:
-
-<p align="center">
-  <img src="images/featuretools_mostimportant.png" width = "600"/>
-</p>
-
-3. __Retail Spending Prediction: Ensure Models Use Valid Data__
+2. __Retail Spending Prediction: Ensure Models Use Valid Data__
 
 When we have time-series data, we traditionally have to be extremely careful about making
 sure our model only trains on valid data. Often, a model will work in development only to completely fail in deployment
@@ -75,6 +63,17 @@ and delivering better overall predictive models:
 
 <p align="center">
   <img src="images/results_comparison.png" width = "600"/>
+</p>
+
+
+3. __Engine Life Prediction: Automatically Create Meaningful Features__
+
+In this problem of predicting how long an engine will run until it fails, we observe that 
+Featuretools creates meaningful features which can inform our thinking about real-world problems
+as seen in the most important features:
+
+<p align="center">
+  <img src="images/featuretools_mostimportant.png" width = "600"/>
 </p>
 
 ## Feature Labs
