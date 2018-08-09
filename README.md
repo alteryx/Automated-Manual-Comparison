@@ -29,10 +29,10 @@ Featuretools offers us the following benefits:
 Automated feature engineering will change the way you do machine learning by allowing you to 
 develop better predictive models in a fraction of the time as the traditional approach.
 
-## Articles
+## Article
 
 For the highlights of the project, check out "Why Automated Feature Engineering
-Will Change the Way You Do Machine Learning" on Towards Data Science (Link)
+Will Change the Way You Do Machine Learning" on Towards Data Science ([Link](https://medium.com/@williamkoehrsen/why-automated-feature-engineering-will-change-the-way-you-do-machine-learning-5c15bf188b96))
 
 # Results
 
