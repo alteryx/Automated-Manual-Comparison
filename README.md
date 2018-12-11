@@ -87,12 +87,8 @@ For an example of how Featuretools can scale - either on a single machine or a c
 
 ## Feature Labs
 
-<p align="left">
-  <img src="images/FeatureLabs.png" width = "400" alt = "Feature Labs"/>
-</p>
-
-Featuretools was created by the developers at [Feature Labs](https://www.featurelabs.com/). If building impactful data science pipelines is important to you or your business, please [get in touch](https://www.featurelabs.com/contact.html).
+Featuretools is an open source project created by [Feature Labs](https://www.featurelabs.com/). To see the other open source projects we're working on visit Feature Labs [Open Source](https://www.featurelabs.com/open). If building impactful data science pipelines is important to you or your business, please [get in touch](https://www.featurelabs.com/contact.html).
 
 ### Contact
 
-Any questions can be directed to will.koehrsen@featurelabs.com
+Any questions can be directed to help@featurelabs.com
