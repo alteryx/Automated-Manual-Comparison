@@ -47,7 +47,6 @@ entrypoints==0.2.3
 et-xmlfile==1.0.1
 execnet==1.5.0
 fastcache==1.0.2
-featuretools==0.2.1
 filelock==3.0.4
 flake8==3.5.0
 Flask==1.0.2
@@ -88,7 +87,6 @@ llvmlite==0.23.1
 locket==0.2.0
 lxml==4.2.1
 MarkupSafe==1.0
-matplotlib==2.2.2
 mccabe==0.6.1
 mistune==0.8.3
 mkl-fft==1.0.0
@@ -170,7 +168,6 @@ ruamel-yaml==0.15.35
 s3fs==0.1.5
 s3transfer==0.1.13
 scikit-image==0.13.1
-scikit-learn==0.19.1
 scipy==1.1.0
 seaborn==0.8.1
 Send2Trash==1.5.0
@@ -194,9 +191,7 @@ toolz==0.9.0
 tornado==4.5.3
 tqdm==4.23.4
 traitlets==4.3.2
-tsfresh==0.11.0
 typing==3.6.4
-umap-learn==0.3.0
 unicodecsv==0.14.1
 urllib3==1.22
 virtualenv==16.0.0
