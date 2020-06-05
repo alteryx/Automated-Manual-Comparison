@@ -78,8 +78,8 @@ as seen in the most important features:
 
 # Scaling with Dask
 
-For an example of how Featuretools can scale - either on a single machine or a cluster - see the 
-[Featuretools on Dask notebook](https://github.com/Featuretools/Automated-Manual-Comparison/blob/master/Loan%20Repayment/notebooks/Featuretools%20on%20Dask.ipynb).
+For examples of how Featuretools can scale - either on a single machine or a cluster - see the [Feature Matrix with Dask EntitySet](https://github.com/Featuretools/Automated-Manual-Comparison/blob/master/Loan%20Repayment/notebooks/Feature%20Matrix%20with%20Dask%20EntitySet.ipynb) and 
+[Featuretools on Dask](https://github.com/Featuretools/Automated-Manual-Comparison/blob/master/Loan%20Repayment/notebooks/Featuretools%20on%20Dask.ipynb) notebooks.
 
 <p align="center">
   <img src="Loan Repayment/images/profile2.png" width = "600"/>
